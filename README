@@ -1,1 +1,7 @@
 This app should scrape bike images off craigslist, and then perform some kind of computer vision analysis to find bikes of the same model and make provided by users.
+
+account for
+  - color
+  - backgrounds
+  - bike size image fraction
+  - reflection
