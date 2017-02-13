@@ -2,7 +2,8 @@ import json
 import os
 import re
 import sys
-from urllib.request import urlopen
+import time
+from urllib.request import urlopen, urlretrieve
 
 image_folder_path = "images/cl"
 
@@ -12,7 +13,6 @@ def scrape_bikes(city):
 
     if not os.path.isdir(image_folder_path + "/" + city):
         os.makedirs(image_folder_path + "/" + city)
-        # print("made " + city + " folder")
 
     html = urlopen(first_page).read()
     # regex = "https://" + city + "\.craigslist\.org(/([a-z])*)*/bik/[0-9]{10}.html"
@@ -33,11 +33,14 @@ def scrape_bikes(city):
             num_regex = r"[0-9]{10}"
             num = re.search(num_regex, bp);
             bike_num = num.group(0)
-            print(bike_num)
-            os.makedirs(image_folder_path + "/" + city + "/" + bike_num)
-            for img in img_list:
-                pass
-                # print(img["url"]) # download
+            bike_folder = image_folder_path + "/" + city + "/" + bike_num
+            if not os.path.isdir(bike_folder):
+                os.makedirs(bike_folder)
+                i = 0
+                for img in img_list :
+                    urlretrieve(img["url"], image_folder_path + "/" + city + "/" + bike_num + "/" + str(i) + ".jpg")
+                    i = i + 1
+        time.sleep(10)
 
 # set up folders
 if not os.path.isdir(image_folder_path):
